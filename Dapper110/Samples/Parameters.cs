@@ -1,12 +1,12 @@
 ﻿using Dapper;
-using Microsoft.Data.SqlClient;
 using Dapper110.Models;
+using Microsoft.Data.SqlClient;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Threading.Tasks;
 
-namespace Dapper110
+namespace Dapper110.Samples
 {
     public static class Parameters
     {
@@ -48,7 +48,8 @@ namespace Dapper110
         {
             using var connection = new SqlConnection(connectionString);
 
-            var restaurants = await connection.QueryAsync<Restaurant>("SELECT Id, Name FROM Restaurants WHERE CityID IN @ids",
+            var restaurants = await connection.QueryAsync<Restaurant>
+                ("SELECT Id, Name FROM Restaurants WHERE CityID IN @ids",
                 new
                 {
                     Ids = new List<int> { 1, 2 }

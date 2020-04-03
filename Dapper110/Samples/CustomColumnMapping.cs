@@ -1,14 +1,14 @@
 ﻿using Dapper;
 using Dapper.FluentMap;
 using Dapper.FluentMap.Mapping;
-using Microsoft.Data.SqlClient;
 using Dapper110.Models.MultipleMappings;
+using Microsoft.Data.SqlClient;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Threading.Tasks;
 
-namespace Dapper110
+namespace Dapper110.Samples
 {
     public static class CustomColumnMapping
     {

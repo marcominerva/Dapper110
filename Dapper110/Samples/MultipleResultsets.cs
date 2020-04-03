@@ -1,11 +1,11 @@
 ﻿using Dapper;
-using Microsoft.Data.SqlClient;
 using Dapper110.Models;
+using Microsoft.Data.SqlClient;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Dapper110
+namespace Dapper110.Samples
 {
     public static class MultipleResultsets
     {
