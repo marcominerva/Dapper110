@@ -37,9 +37,9 @@ namespace Dapper110.Polly
                                                             CommandType? commandType = null)
             => RetryPolicy.ExecuteAsync(async () => await conn.ExecuteAsync(sql, param, transaction, commandTimeout, commandType));
 
-        public static Task<IEnumerable<T>> QueryWithRetryAsync<T>(this IDbConnection cnn, string sql, object param = null,
+        public static Task<IEnumerable<T>> QueryWithRetryAsync<T>(this IDbConnection conn, string sql, object param = null,
                                                                         IDbTransaction transaction = null, int? commandTimeout = null,
                                                                         CommandType? commandType = null)
-            => RetryPolicy.ExecuteAsync(async () => await cnn.QueryAsync<T>(sql, param, transaction, commandTimeout, commandType));
+            => RetryPolicy.ExecuteAsync(async () => await conn.QueryAsync<T>(sql, param, transaction, commandTimeout, commandType));
     }
 }
