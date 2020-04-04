@@ -13,11 +13,11 @@ namespace Dapper110.Samples
     {
         public static async Task RunSampleAsync(string connectionString)
         {
-            await RoleMappingAsync(connectionString);
+            //await RoleMappingAsync(connectionString);
 
-            // await JsonMappingReadAsync(connectionString);
+            await JsonMappingReadAsync(connectionString);
 
-            // await JsonMappingWriteAsync(connectionString);
+            //await JsonMappingWriteAsync(connectionString);
         }
 
         private static async Task RoleMappingAsync(string connectionString)
