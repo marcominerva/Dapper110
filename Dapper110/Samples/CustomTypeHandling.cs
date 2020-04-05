@@ -73,7 +73,8 @@ namespace Dapper110.Samples
                         },
                         new Tag
                         {
-                            Value = "#food" }
+                            Value = "#food"
+                        }
                     }
                 });
 
