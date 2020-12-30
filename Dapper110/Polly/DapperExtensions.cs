@@ -23,14 +23,14 @@ namespace Dapper110.Polly
         };
 
         private static readonly AsyncRetryPolicy RetryPolicy = Policy
-                                                    .Handle<SqlException>(SqlServerTransientExceptionDetector.ShouldRetryOn)
-                                                    .Or<TimeoutException>()
-                                                    .OrInner<Win32Exception>(SqlServerTransientExceptionDetector.ShouldRetryOn)
-                                                    .WaitAndRetryAsync(RetryTimes,
-                                                    (exception, timeSpan, retryCount, context) =>
-                                                    {
-                                                        Console.WriteLine($"Exception '{exception.Message}', will retry after {timeSpan}. Retry attempt {retryCount}");
-                                                    });
+                                                .Handle<SqlException>(SqlServerTransientExceptionDetector.ShouldRetryOn)
+                                                .Or<TimeoutException>()
+                                                .OrInner<Win32Exception>(SqlServerTransientExceptionDetector.ShouldRetryOn)
+                                                .WaitAndRetryAsync(RetryTimes,
+                                                (exception, timeSpan, retryCount, context) =>
+                                                {
+                                                    Console.WriteLine($"Exception '{exception.Message}', will retry after {timeSpan}. Retry attempt {retryCount}");
+                                                });
 
         public static Task<int> ExecuteWithRetryAsync(this IDbConnection conn, string sql, object param = null,
                                                             IDbTransaction transaction = null, int? commandTimeout = null,

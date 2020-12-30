@@ -10,18 +10,7 @@ namespace Dapper110.Samples
 {
     public static class Parameters
     {
-        public static async Task RunSampleAsync(string connectionString)
-        {
-            await AnonymousObjectAsync(connectionString);
-
-            //await AnonymousObjectListAsync(connectionString);
-
-            //await DbStringAsync(connectionString);
-
-            //await DynamicParametersAsync(connectionString);
-
-            //await DynamicParametersStoredProcedureAsync(connectionString);
-        }
+        public static async Task RunSampleAsync(string connectionString) => await AnonymousObjectAsync(connectionString);//await AnonymousObjectListAsync(connectionString);//await DbStringAsync(connectionString);//await DynamicParametersAsync(connectionString);//await DynamicParametersStoredProcedureAsync(connectionString);
 
         private static async Task AnonymousObjectAsync(string connectionString)
         {
@@ -105,7 +94,6 @@ namespace Dapper110.Samples
             parameters.Add("Result", null, DbType.Int32, ParameterDirection.ReturnValue);
 
             await connection.ExecuteAsync("AddRestaurant", parameters, commandType: CommandType.StoredProcedure);
-
             var id = parameters.Get<int>("Result");
 
             Console.WriteLine($"Id of the inserted restaurant: {id}.");
