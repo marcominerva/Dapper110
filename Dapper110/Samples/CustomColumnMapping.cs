@@ -1,12 +1,12 @@
-﻿using Dapper;
+﻿using System;
+using System.Collections.Generic;
+using System.Reflection;
+using System.Threading.Tasks;
+using Dapper;
 using Dapper.FluentMap;
 using Dapper.FluentMap.Mapping;
 using Dapper110.Models.MultipleMappings;
 using Microsoft.Data.SqlClient;
-using System;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Threading.Tasks;
 
 namespace Dapper110.Samples
 {

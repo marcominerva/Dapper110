@@ -1,12 +1,12 @@
-﻿using Dapper;
-using Microsoft.Data.SqlClient;
-using Polly;
-using Polly.Retry;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Threading.Tasks;
+using Dapper;
+using Microsoft.Data.SqlClient;
+using Polly;
+using Polly.Retry;
 
 namespace Dapper110.Polly
 {
@@ -35,11 +35,15 @@ namespace Dapper110.Polly
         public static Task<int> ExecuteWithRetryAsync(this IDbConnection conn, string sql, object param = null,
                                                             IDbTransaction transaction = null, int? commandTimeout = null,
                                                             CommandType? commandType = null)
-            => RetryPolicy.ExecuteAsync(async () => await conn.ExecuteAsync(sql, param, transaction, commandTimeout, commandType));
+        {
+            return RetryPolicy.ExecuteAsync(async () => await conn.ExecuteAsync(sql, param, transaction, commandTimeout, commandType));
+        }
 
         public static Task<IEnumerable<T>> QueryWithRetryAsync<T>(this IDbConnection conn, string sql, object param = null,
                                                                         IDbTransaction transaction = null, int? commandTimeout = null,
                                                                         CommandType? commandType = null)
-            => RetryPolicy.ExecuteAsync(async () => await conn.QueryAsync<T>(sql, param, transaction, commandTimeout, commandType));
+        {
+            return RetryPolicy.ExecuteAsync(async () => await conn.QueryAsync<T>(sql, param, transaction, commandTimeout, commandType));
+        }
     }
 }

@@ -11,5 +11,7 @@ namespace Dapper110.Models.CustomTypeHandling
         public string Email { get; set; }
 
         public Role Role { get; set; }
+
+        public Scope Scope { get; set; }
     }
 }

@@ -1,16 +1,27 @@
-﻿using Dapper;
-using Dapper110.Models;
-using Microsoft.Data.SqlClient;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Threading.Tasks;
+using Dapper;
+using Dapper110.Models;
+using Microsoft.Data.SqlClient;
 
 namespace Dapper110.Samples
 {
     public static class Parameters
     {
-        public static async Task RunSampleAsync(string connectionString) => await AnonymousObjectAsync(connectionString);//await AnonymousObjectListAsync(connectionString);//await DbStringAsync(connectionString);//await DynamicParametersAsync(connectionString);//await DynamicParametersStoredProcedureAsync(connectionString);
+        public static async Task RunSampleAsync(string connectionString)
+        {
+            await AnonymousObjectAsync(connectionString);
+
+            //await AnonymousObjectListAsync(connectionString);
+
+            //await DbStringAsync(connectionString);
+
+            //await DynamicParametersAsync(connectionString);
+
+            //await DynamicParametersStoredProcedureAsync(connectionString);
+        }
 
         private static async Task AnonymousObjectAsync(string connectionString)
         {

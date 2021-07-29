@@ -1,11 +1,12 @@
-﻿using Dapper;
-using Dapper110.Models.CustomTypeHandling;
-using Microsoft.Data.SqlClient;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Text.Json;
 using System.Threading.Tasks;
+using Dapper;
+using Dapper110.Enums;
+using Dapper110.Models.CustomTypeHandling;
+using Microsoft.Data.SqlClient;
 
 namespace Dapper110.Samples
 {
@@ -13,24 +14,52 @@ namespace Dapper110.Samples
     {
         public static async Task RunSampleAsync(string connectionString)
         {
-            //await RoleMappingAsync(connectionString);
+            await RoleMappingReadAsync(connectionString);
 
-            await JsonMappingReadAsync(connectionString);
+            //await RoleMappingWriteAsync(connectionString);
+
+            //await JsonMappingReadAsync(connectionString);
 
             //await JsonMappingWriteAsync(connectionString);
         }
 
-        private static async Task RoleMappingAsync(string connectionString)
+        private static async Task RoleMappingReadAsync(string connectionString)
         {
+            SqlMapper.AddTypeHandler(new ScopeTypeHandler());
+
             using var connection = new SqlConnection(connectionString);
 
             var users = await connection.QueryAsync<User>(@"
-                SELECT Id, Name, Email, Role
+                SELECT Id, Name, Email, Role, Scope
                 FROM USERS                
                 ORDER BY Name"
                 );
 
             Print(users);
+        }
+
+        private static async Task RoleMappingWriteAsync(string connectionString)
+        {
+            SqlMapper.AddTypeHandler(new ScopeTypeHandler());
+
+            using var connection = new SqlConnection(connectionString);
+            using var transation = await connection.BeginTransactionAsync();
+
+            // Add a user.
+            await connection.ExecuteAsync(@"INSERT INTO Users(Name, Email, Role, Scope)
+                VALUES (@name, @email, @role, @scope)",
+                param: new
+                {
+                    Name = "Pierugo",
+                    Email = "pierugo@email.it",
+                    Role = (Role.User | Role.Contributor).ToString(),
+                    Scope = Scope.Write
+                },
+                transaction: transation);
+
+            await transation.CommitAsync();
+
+            await RoleMappingReadAsync(connectionString);
         }
 
         private static async Task JsonMappingReadAsync(string connectionString)
@@ -55,7 +84,7 @@ namespace Dapper110.Samples
 
             using var connection = new SqlConnection(connectionString);
 
-            // Aggiunge una recensione.
+            // Add a review.
             await connection.ExecuteAsync(@"INSERT INTO Reviews(UserId, RestaurantId, Rating, Comment, [Date], Tags)
                 VALUES (@userId, @restaurantId, @rating, @comment, @date, @tags)",
                 param: new
@@ -119,6 +148,21 @@ namespace Dapper110.Samples
         {
             var json = JsonSerializer.Serialize(value);
             parameter.Value = json;
+        }
+    }
+
+    public class ScopeTypeHandler : SqlMapper.TypeHandler<Scope>
+    {
+        public override Scope Parse(object value)
+        {
+            var scope = (Scope)value.ToString();
+            return scope;
+        }
+
+        public override void SetValue(IDbDataParameter parameter, Scope value)
+        {
+            parameter.DbType = DbType.String;
+            parameter.Value = (string)(dynamic)value;
         }
     }
 }

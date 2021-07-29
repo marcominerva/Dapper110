@@ -4,8 +4,8 @@
 // https://github.com/Azure/elastic-db-tools/blob/master/Src/ElasticScale.Client/ElasticScale.Common/TransientFaultHandling/Implementation/SqlDatabaseTransientErrorDetectionStrategy.cs
 // With the addition of
 // SQL Error 11001 (connection failed)
-using Microsoft.Data.SqlClient;
 using System.ComponentModel;
+using Microsoft.Data.SqlClient;
 
 namespace Dapper110.Polly
 {

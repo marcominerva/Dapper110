@@ -1,9 +1,9 @@
-﻿using Dapper;
-using Dapper110.Models;
-using Microsoft.Data.SqlClient;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Dapper;
+using Dapper110.Models;
+using Microsoft.Data.SqlClient;
 
 namespace Dapper110.Samples
 {
