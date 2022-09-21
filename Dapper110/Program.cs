@@ -1,25 +1,16 @@
 ﻿using Dapper110.Samples;
-using System.Threading.Tasks;
 
-namespace Dapper110
-{
-    internal class Program
-    {
-        private const string connectionString = @"Data Source=(localdb)\mssqllocaldb;Initial Catalog=Dapper110;Integrated Security=True";
+const string connectionString = @"Data Source=(localdb)\mssqllocaldb;Initial Catalog=Dapper110;Integrated Security=True";
 
-        private static Task Main(string[] args)
-        {
-            //return Parameters.RunSampleAsync(connectionString);
+//await Parameters.RunSampleAsync(connectionString);
 
-            return MultipleResultsets.RunSampleAsync(connectionString);
+await MultipleResultsets.RunSampleAsync(connectionString);
 
-            //return MultipleMappings.RunSampleAsync(connectionString);
+//await MultipleMappings.RunSampleAsync(connectionString);
 
-            //return CustomColumnMapping.RunSampleAsync(connectionString);
+//await CustomColumnMapping.RunSampleAsync(connectionString);
 
-            //return CustomTypeHandling.RunSampleAsync(connectionString);
+//await CustomTypeHandling.RunSampleAsync(connectionString);
 
-            //return Resiliency.RunSampleAsync(connectionString);
-        }
-    }
-}
+//await Resiliency.RunSampleAsync(connectionString);
+
