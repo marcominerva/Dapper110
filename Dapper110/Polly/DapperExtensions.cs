@@ -9,7 +9,7 @@ namespace Dapper110.Polly;
 
 public static class DapperExtensions
 {
-    private static readonly IEnumerable<TimeSpan> RetryTimes = new[]
+    private static readonly IEnumerable<TimeSpan> retryTimes = new[]
     {
         TimeSpan.FromSeconds(1),
         TimeSpan.FromSeconds(3),
@@ -19,11 +19,10 @@ public static class DapperExtensions
         TimeSpan.FromSeconds(30)
     };
 
-    private static readonly AsyncRetryPolicy RetryPolicy = Policy
+    private static readonly AsyncRetryPolicy retryPolicy = Policy
                                             .Handle<SqlException>(SqlServerTransientExceptionDetector.ShouldRetryOn)
-                                            .Or<TimeoutException>()
                                             .OrInner<Win32Exception>(SqlServerTransientExceptionDetector.ShouldRetryOn)
-                                            .WaitAndRetryAsync(RetryTimes,
+                                            .WaitAndRetryAsync(retryTimes,
                                             (exception, timeSpan, retryCount, context) =>
                                             {
                                                 Console.WriteLine($"Exception '{exception.Message}', will retry after {timeSpan}. Retry attempt {retryCount}");
@@ -31,9 +30,11 @@ public static class DapperExtensions
 
     public static Task<int> ExecuteWithRetryAsync(this IDbConnection conn, string sql, object param = null,
                                                         IDbTransaction transaction = null, int? commandTimeout = null,
-                                                        CommandType? commandType = null) => RetryPolicy.ExecuteAsync(async () => await conn.ExecuteAsync(sql, param, transaction, commandTimeout, commandType));
+                                                        CommandType? commandType = null)
+        => retryPolicy.ExecuteAsync(async () => await conn.ExecuteAsync(sql, param, transaction, commandTimeout, commandType));
 
     public static Task<IEnumerable<T>> QueryWithRetryAsync<T>(this IDbConnection conn, string sql, object param = null,
                                                                     IDbTransaction transaction = null, int? commandTimeout = null,
-                                                                    CommandType? commandType = null) => RetryPolicy.ExecuteAsync(async () => await conn.QueryAsync<T>(sql, param, transaction, commandTimeout, commandType));
+                                                                    CommandType? commandType = null)
+        => retryPolicy.ExecuteAsync(async () => await conn.QueryAsync<T>(sql, param, transaction, commandTimeout, commandType));
 }
