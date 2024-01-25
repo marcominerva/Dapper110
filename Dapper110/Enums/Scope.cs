@@ -1,6 +1,6 @@
 ﻿namespace Dapper110.Enums;
 
-public struct Scope
+public readonly struct Scope
 {
     private readonly string value;
 
@@ -20,12 +20,8 @@ public struct Scope
     }
 
     public static implicit operator Scope(string value)
-    {
-        return new Scope(value);
-    }
+        => new(value);
 
-    public static implicit operator string(Scope country)
-    {
-        return country.value;
-    }
+    public static implicit operator string(Scope scope)
+        => scope.value;
 }
